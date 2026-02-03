@@ -1,0 +1,53 @@
+name: Sync SaveRewinder Description
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Run every hour
+  repository_dispatch:
+    types: [saverewinder-description-update]
+  workflow_dispatch:     # Allow manual triggers
+
+jobs:
+  sync-description:
+    runs-on: ubuntu-latest
+    if: github.repository == 'liafonx/balatro-mod-index'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Fetch external description
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/liafonx/Balatro-SaveRewinder/main/docs/description.md" -o /tmp/external_description.md
+
+      - name: Check for changes
+        id: check
+        run: |
+          LOCAL_FILE="mods/Liafonx@SaveRewinder/description.md"
+          if [ ! -f "$LOCAL_FILE" ]; then
+            echo "Local file does not exist, will create"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          elif cmp -s "$LOCAL_FILE" /tmp/external_description.md; then
+            echo "No changes detected"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update description
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          cp /tmp/external_description.md "mods/Liafonx@SaveRewinder/description.md"
+
+      - name: Commit and push changes
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config --global user.name 'Description Sync Bot'
+          git config --global user.email 'bot@noreply.github.com'
+          git add "mods/Liafonx@SaveRewinder/description.md"
+          git commit -m "Sync SaveRewinder description from source repository"
+          git push
