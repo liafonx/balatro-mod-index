@@ -8,6 +8,8 @@ Automatically creates save points as you play. Rewind to any moment instantly.
 - **Instant Undo** — Press `S` or `L3` to step back immediately.
 - **Quick Saveload** — Press `L` or `R3` to instantly reload.
 - **Key Saves** — Mark important saves and filter to key saves only.
+- **Rename Saves** — Use the pencil mode to rename save entries inline.
+- **Game Over Rewind** — Rewind to the last save directly from the game over panel.
 - **Rewind Freely** — Stepped-back saves are preserved until you make a new save.
 - **Save Browser** — Visual timeline with blind icons to easily find your spot.
 - **Smart Continue** — Resumes at your exact timeline position, even after restarting.
@@ -23,8 +25,15 @@ Automatically creates save points as you play. Rewind to any moment instantly.
 ## Save List Icon Buttons
 - **Check key saves** — Show only key saves.
 - **★ Edit key saves** — Enter mark mode and toggle key marks.
+- **✏️ Rename mode** — Enter rename mode and edit save titles.
 - **▶ Current save** — Jump to the currently loaded save.
-- **Flow** — `★ Edit key saves` → click entries (`[?]` = pending) → `★ Save marking changes`.
+- **Mark flow** — `★ Edit key saves` → click entries (pending shown as row-edge white dot badge) → `★ Save marking changes`.
+- **Rename flow** — `✏️` → edit row title → click `✏️` again to commit drafts.
+
+## Enter Key (Overlay)
+- Mark mode + Enter = commit mark edits.
+- Rename mode + editing row + Enter = stage row draft and exit row edit.
+- Rename mode + not editing row + Enter = commit rename drafts and exit rename mode.
 
 ## Configuration
 Customize save triggers, save limits, overflow handling, keybinds, and more in the Steamodded mod menu.
